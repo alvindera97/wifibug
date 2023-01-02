@@ -1,3 +1,4 @@
+import sys
 from typing import NoReturn, Dict, Callable, Any
 
 
@@ -6,6 +7,7 @@ EXECUTE: Dict[int | None, Callable[[], Any] | Callable[[], Any] | Callable[[], N
     4: lambda: main(headless=True if sys.argv[1] == "headless" else False, username=sys.argv[2], password=sys.argv[3]),
     None: lambda: print(f"USAGE: python main.py [headless/visual] [username password]")
 }
+
 
 class NoUsernamePasswordSetError(Exception): pass
 
@@ -23,3 +25,8 @@ def main(headless: bool = False, username: str = None, password: str = None) -> 
     It's following operation is the same as if username and password were originally given.
     """
     pass
+
+
+if __name__ == "__main__":
+    EXECUTE[len(sys.argv) if len(sys.argv) in EXECUTE else None]()
+    print(len(sys.argv))
