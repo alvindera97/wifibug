@@ -1,6 +1,8 @@
+import os
 import sys
 from typing import NoReturn, Dict, Callable, Optional
 
+USAGE_TEXT: str = "USAGE: python main.py [headless/visual] [username password]\n"
 EXECUTE: Dict[Optional[int], Callable] = {
     2: lambda: main(
         headless=True if sys.argv[1] == "headless" else False),
@@ -8,13 +10,13 @@ EXECUTE: Dict[Optional[int], Callable] = {
         headless=True if sys.argv[1] == "headless" else False,
         username=sys.argv[2],
         password=sys.argv[3]),
-    None: lambda: print(
-        f"USAGE: python main.py [headless/visual] [username password]")
+    None: lambda: print(USAGE_TEXT)
 }
 
 
-class NoUsernamePasswordSetError(Exception):
-    pass
+def raise_no_username_password_set():
+    print(USAGE_TEXT)
+    quit(0)
 
 
 def main(
@@ -43,4 +45,3 @@ def main(
 
 if __name__ == "__main__":
     EXECUTE[len(sys.argv) if len(sys.argv) in EXECUTE else None]()
-    print(len(sys.argv))
