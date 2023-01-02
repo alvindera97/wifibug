@@ -1,0 +1,1 @@
+class NoUsernamePasswordSetError(Exception): pass
