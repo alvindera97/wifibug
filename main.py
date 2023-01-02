@@ -22,6 +22,18 @@ def raise_no_username_password_set():
     quit(0)
 
 
+def raise_invalid_username_or_password():
+    print(f'INVALID USERNAME OR PASSWORD!\n'
+          f'Try again with correct credentials.'
+          f'\n\n{USAGE_TEXT}')
+    quit(0)
+
+
+def raise_execution_failure(message) -> bool:
+    print(f'{message}')
+    return False
+
+
 def main(
         headless: bool = False,
         username: str = None,
