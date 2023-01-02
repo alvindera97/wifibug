@@ -1,5 +1,11 @@
-from typing import NoReturn
+from typing import NoReturn, Dict, Callable, Any
 
+
+EXECUTE: Dict[int | None, Callable[[], Any] | Callable[[], Any] | Callable[[], None]] = {
+    2: lambda: main(headless=True if sys.argv[1] == "headless" else False),
+    4: lambda: main(headless=True if sys.argv[1] == "headless" else False, username=sys.argv[2], password=sys.argv[3]),
+    None: lambda: print(f"USAGE: python main.py [headless/visual] [username password]")
+}
 
 class NoUsernamePasswordSetError(Exception): pass
 
