@@ -66,7 +66,7 @@ def main(
     if headless:
         options = Options()
         options.headless = True
-        browser = Chrome(chrome_options=options)
+        browser = Chrome(options=options)
     else:
         browser = Chrome()
 
