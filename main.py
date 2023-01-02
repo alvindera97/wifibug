@@ -58,8 +58,10 @@ def main(
     """
 
     if not (username and password):
-        username = os.getenv('UNIBEN_WIFI_USERNAME', raise_no_username_password_set())
-        password = os.getenv('UNIBEN_WIFI_PASSWORD', raise_no_username_password_set())
+        username = os.getenv("UNIBEN_WIFI_USERNAME") if os.getenv(
+            'UNIBEN_WIFI_USERNAME') else raise_no_username_password_set()
+        password = os.getenv("UNIBEN_WIFI_PASSWORD") if os.getenv(
+            'UNIBEN_WIFI_PASSWORD') else raise_no_username_password_set()
 
     if headless:
         options = Options()
