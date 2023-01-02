@@ -2,6 +2,9 @@ import os
 import sys
 from typing import NoReturn, Dict, Callable, Optional
 
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
+
 USAGE_TEXT: str = "USAGE: python main.py [headless/visual] [username password]\n"
 EXECUTE: Dict[Optional[int], Callable] = {
     2: lambda: main(
@@ -41,6 +44,10 @@ def main(
     It's following operation is the same as if username
     and password were originally given.
     """
+
+    if not (username and password):
+        username = os.getenv('UNIBEN_WIFI_USERNAME', raise_no_username_password_set())
+        password = os.getenv('UNIBEN_WIFI_PASSWORD', raise_no_username_password_set())
 
 
 if __name__ == "__main__":
