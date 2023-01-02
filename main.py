@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import NoReturn, Dict, Callable, Optional
+from typing import Dict, Callable, Optional, NoReturn
 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
