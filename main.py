@@ -49,6 +49,13 @@ def main(
         username = os.getenv('UNIBEN_WIFI_USERNAME', raise_no_username_password_set())
         password = os.getenv('UNIBEN_WIFI_PASSWORD', raise_no_username_password_set())
 
+    if headless:
+        options = Options()
+        options.headless = True
+        browser = Chrome(chrome_options=options)
+    else:
+        browser = Chrome()
+
 
 if __name__ == "__main__":
     EXECUTE[len(sys.argv) if len(sys.argv) in EXECUTE else None]()
