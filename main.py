@@ -4,6 +4,7 @@ from typing import Dict, Callable, Optional, NoReturn
 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
+from selenium.webdriver.common.by import By
 
 USAGE_TEXT: str = "USAGE: python main.py [headless/visual] [username password]\n"
 EXECUTE: Dict[Optional[int], Callable] = {
@@ -69,6 +70,30 @@ def main(
         browser = Chrome(options=options)
     else:
         browser = Chrome()
+    browser.implicitly_wait(5)
+
+    verdict = False
+
+    while not verdict:
+        browser.get("http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/")
+        browser.find_element(By.XPATH, "/html/body/div/div/div/form/label[1]/input").send_keys(username)
+        browser.find_element(By.XPATH, "/html/body/div/div/div/form/label[2]/input").send_keys(password)
+        browser.find_element(By.XPATH, '/html/body/div/div/div/form/input[3]'
+                             ).click()
+        try:
+            message = browser.find_element(By.CSS_SELECTOR, "p.info.alert").text
+
+            if message.startswith("invalid"):
+                raise_invalid_username_or_password()
+            elif message.startswith("no"):
+                verdict = raise_execution_failure(message)
+            else:
+                verdict = False
+        except Exception as e:
+            raise_execution_failure(e)
+            quit(0)
+
+    print("Logged In Successfully!")
 
 
 if __name__ == "__main__":
