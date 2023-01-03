@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 USAGE_TEXT: str = "USAGE: p" \
                   "ython main.py [headless/visual] [username password]\n"
+LOGIN_URL = "http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/"
 
 EXECUTE: Dict[Optional[int], Callable] = {
     2: lambda: main(
@@ -78,13 +79,19 @@ def main(
     verdict = False
 
     while not verdict:
-        browser.get("http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/")
-        browser.find_element(By.XPATH, "/html/body/div/div/div/form/label[1]/input").send_keys(username)
-        browser.find_element(By.XPATH, "/html/body/div/div/div/form/label[2]/input").send_keys(password)
-        browser.find_element(By.XPATH, '/html/body/div/div/div/form/input[3]'
+        browser.get(LOGIN_URL)
+        browser.find_element(By.XPATH,
+                             "/html/body/div/div/div/form/label[1]/input"
+                             ).send_keys(username)
+        browser.find_element(By.XPATH,
+                             "/html/body/div/div/div/form/label[2]/input"
+                             ).send_keys(password)
+        browser.find_element(By.XPATH,
+                             '/html/body/div/div/div/form/input[3]'
                              ).click()
         try:
-            message = browser.find_element(By.CSS_SELECTOR, "p.info.alert").text
+            message = browser.find_element(
+                By.CSS_SELECTOR, "p.info.alert").text
 
             if message.startswith("invalid"):
                 raise_invalid_username_or_password()
