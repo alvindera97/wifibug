@@ -6,7 +6,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
 from selenium.webdriver.common.by import By
 
-USAGE_TEXT: str = "USAGE: python main.py [headless/visual] [username password]\n"
+USAGE_TEXT: str = "USAGE: p" \
+                  "ython main.py [headless/visual] [username password]\n"
+
 EXECUTE: Dict[Optional[int], Callable] = {
     2: lambda: main(
         headless=True if sys.argv[1] == "headless" else False),
