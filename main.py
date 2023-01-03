@@ -2,6 +2,7 @@ import os
 import sys
 from typing import Dict, Callable, Optional, NoReturn
 
+from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
 from selenium.webdriver.common.by import By
@@ -91,6 +92,8 @@ def main(
                 verdict = raise_execution_failure(message)
             else:
                 verdict = False
+        except NoSuchElementException:
+            break
         except Exception as e:
             raise_execution_failure(e)
             quit(0)
