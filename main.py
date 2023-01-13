@@ -2,7 +2,7 @@ import os
 import sys
 from typing import Dict, Callable, Optional, NoReturn
 
-from selenium.common import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
 from selenium.webdriver.common.by import By
@@ -80,16 +80,16 @@ def main(
 
     while not verdict:
         browser.get(LOGIN_URL)
-        browser.find_element(By.XPATH,
-                             "/html/body/div/div/div/form/label[1]/input"
-                             ).send_keys(username)
-        browser.find_element(By.XPATH,
-                             "/html/body/div/div/div/form/label[2]/input"
-                             ).send_keys(password)
-        browser.find_element(By.XPATH,
-                             '/html/body/div/div/div/form/input[3]'
-                             ).click()
         try:
+            browser.find_element(By.XPATH,
+                                 "/html/body/div/div/div/form/label[1]/input"
+                                 ).send_keys(username)
+            browser.find_element(By.XPATH,
+                                 "/html/body/div/div/div/form/label[2]/input"
+                                 ).send_keys(password)
+            browser.find_element(By.XPATH,
+                                 '/html/body/div/div/div/form/input[3]'
+                                 ).click()
             message = browser.find_element(
                 By.CSS_SELECTOR, "p.info.alert").text
 
