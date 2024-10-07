@@ -22,19 +22,19 @@ EXECUTE: Dict[Optional[int], Callable] = {
 }
 
 
-def raise_no_username_password_set():
+def print_no_username_password_set_and_quit():
     print(USAGE_TEXT)
     quit(0)
 
 
-def raise_invalid_username_or_password():
+def print_invalid_username_or_password_and_quit():
     print(f'INVALID USERNAME OR PASSWORD!\n'
           f'Try again with correct credentials.'
           f'\n\n{USAGE_TEXT}')
     quit(0)
 
 
-def raise_execution_failure(message) -> bool:
+def print_execution_failure(message) -> bool:
     print(f'{message}')
     return False
 
@@ -64,10 +64,9 @@ def main(
 
     if not (username and password):
         username = os.getenv("UNIBEN_WIFI_USERNAME") if os.getenv(
-            'UNIBEN_WIFI_USERNAME') else raise_no_username_password_set()
+            'UNIBEN_WIFI_USERNAME') else print_no_username_password_set_and_quit()
         password = os.getenv("UNIBEN_WIFI_PASSWORD") if os.getenv(
-            'UNIBEN_WIFI_PASSWORD') else raise_no_username_password_set()
-
+            'UNIBEN_WIFI_PASSWORD') else print_no_username_password_set_and_quit()   
     if headless:
         options = Options()
         options.headless = True
@@ -94,15 +93,15 @@ def main(
                 By.CSS_SELECTOR, "p.info.alert").text
 
             if message.startswith("invalid"):
-                raise_invalid_username_or_password()
+                print_invalid_username_or_password_and_quit()
             elif message.startswith("no"):
-                verdict = raise_execution_failure(message)
+                verdict = print_execution_failure(message)
             else:
                 verdict = False
         except NoSuchElementException:
             break
         except Exception as e:
-            raise_execution_failure(e)
+            print_execution_failure(e)
             quit(0)
 
     print("Logged In Successfully!")
