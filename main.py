@@ -23,11 +23,17 @@ EXECUTE: Dict[Optional[int], Callable] = {
 
 
 def print_no_username_password_set_and_quit():
+    """
+    Print that username/password is incorrect, then quit application.
+    """
     print(USAGE_TEXT)
     quit(0)
 
 
 def print_invalid_username_or_password_and_quit():
+    """
+    Print that username/password invalid and quit application.
+    """
     print(f'INVALID USERNAME OR PASSWORD!\n'
           f'Try again with correct credentials.'
           f'\n\n{USAGE_TEXT}')
