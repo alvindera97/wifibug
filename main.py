@@ -19,13 +19,14 @@ USAGE_TEXT: str = (
 LOGIN_URL = "http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/"
 
 EXECUTE: Dict[Optional[int], Callable] = {
-    2: lambda: main(
-        headless=True if sys.argv[1] == "headless" else False),
-    4: lambda: main(
-        headless=True if sys.argv[1] == "headless" else False,
-        username=sys.argv[2],
-        password=sys.argv[3]),
-    None: lambda: print(USAGE_TEXT)
+    None: lambda: print(USAGE_TEXT),
+    2: lambda: main(sys.argv[1] == "headless"),
+
+    # multiple username/password credentials,
+    3: lambda: main(sys.argv[1] == "headless", username_password=sys.argv[2]),
+
+    # single username/password credential
+    4: lambda: main(sys.argv[1] == "headless", username_password=sys.argv[2] + sys.argv[3]),
 }
 
 
