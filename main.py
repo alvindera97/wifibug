@@ -7,8 +7,20 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
 from selenium.webdriver.common.by import By
 
+<<<<<<< Updated upstream
 USAGE_TEXT: str = "USAGE: p" \
                   "ython main.py [headless/visual] [username password]\n"
+=======
+import utils
+
+USAGE_TEXT: str = (
+    "-- wifibug usage --\nWith single username/password combination:\n"
+    "python main.py [headless/visual] <username> <password>\n\n"
+    "To log in with multiple credentials:\n"
+    'python main.py [headless/visual] "<username1>;<password1>;<username2>;<password2>"\n'
+)
+
+>>>>>>> Stashed changes
 LOGIN_URL = "http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/"
 
 EXECUTE: Dict[Optional[int], Callable] = {
@@ -70,11 +82,14 @@ def main(
     - If no credentials are found, the function will raise a NoUserNamePasswordSetError.
     """
 
-    if not (username and password):
-        username = os.getenv("UNIBEN_WIFI_USERNAME") if os.getenv(
-            'UNIBEN_WIFI_USERNAME') else print_no_username_password_set_and_quit()
-        password = os.getenv("UNIBEN_WIFI_PASSWORD") if os.getenv(
-            'UNIBEN_WIFI_PASSWORD') else print_no_username_password_set_and_quit()   
+    if not username_password:
+        username = os.getenv("UNIBEN_WIFI_USERNAME")
+        password = os.getenv("UNIBEN_WIFI_PASSWORD")
+
+        if not (username or password):
+            raise utils.NoUserNamePasswordSetError()
+
+
     if headless:
         options = Options()
         options.headless = True
