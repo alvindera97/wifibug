@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import Dict, Callable, Optional, NoReturn
+from typing import Dict, Callable, Optional, Tuple, List
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
@@ -85,6 +85,13 @@ def main(
         if not (username or password):
             raise utils.NoUserNamePasswordSetError()
 
+    # We're guaranteed here that if username_password is None,
+    # 'username' and 'password' is defined else an exception would have been raised before we reached this line.
+
+    credentials: List[Tuple[str, str]] = [(u, p,) for u, p in
+                                          zip(username.split(";"), password.split(";"))] if not username_password else [
+        ((c := username_password.split(";"))[i], c[i + 1],) for i in
+        range(0, len(username_password.split(";")), 2)]
 
     if headless:
         options = Options()
@@ -94,11 +101,14 @@ def main(
         browser = Chrome()
     browser.implicitly_wait(5)
 
-    verdict = False
+    verdict, i = False, 0
 
     while not verdict:
         browser.get(LOGIN_URL)
         try:
+            username, password = credentials[i]
+            if username is None or password is None:
+                print_no_username_password_set_and_quit()
             browser.find_element(By.XPATH,
                                  "/html/body/div/div/div/form/label[1]/input"
                                  ).send_keys(username)
@@ -122,6 +132,7 @@ def main(
         except Exception as e:
             print_execution_failure(e)
             quit(0)
+        i = (i + 1) % len(credentials)
 
     print("Logged In Successfully!")
 
