@@ -7,10 +7,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
 from selenium.webdriver.common.by import By
 
-<<<<<<< Updated upstream
-USAGE_TEXT: str = "USAGE: p" \
-                  "ython main.py [headless/visual] [username password]\n"
-=======
 import utils
 
 USAGE_TEXT: str = (
@@ -20,7 +16,6 @@ USAGE_TEXT: str = (
     'python main.py [headless/visual] "<username1>;<password1>;<username2>;<password2>"\n'
 )
 
->>>>>>> Stashed changes
 LOGIN_URL = "http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/"
 
 EXECUTE: Dict[Optional[int], Callable] = {
