@@ -46,26 +46,28 @@ def print_execution_failure(message) -> bool:
 
 
 def main(
-        headless: bool = False,
-        username: str = None,
-        password: str = None) -> NoReturn:
+        headless: bool,
+        username_password: str = None,
+) -> None:
     """
-    Persistently try to login to UNIBEN wifi given username and password.
+    Tries to log in to UNIBEN Wi-Fi with provided or environment-stored credentials.
 
-    If username and password is given,
-    the given username and password combinations are used login,
-    if given username and password combinations are incorrect however,
-     main() fails instantly displaying the error
+    ----------------- SINGLE USERNAME/PASSWORD -----------------------
+    - If a username and password are provided, they will be used to log in.
+    - If the credentials are incorrect, the program will fail and display an error.
+    - If no credentials are provided, the program will use environment variables
+      'UNIBEN_WIFI_USERNAME' and 'UNIBEN_WIFI_PASSWORD' as the credentials.
 
-    If username and password aren't given,
-    environment variables storing "UNIBEN_WIFI_USERNAME' and
-    'UNIBEN_WIFI_PASSWORD' are used as credentials.
-    If no environment variable for 'UNIBEN_WIFI_USERNAME'
-    and [or] 'UNIBEN_WIFI_PASSWORD' exist,
-    main() raises NoUsernamePasswordSetError
+    ----------------- MULTIPLE USERNAME/PASSWORD COMBINATIONS -----------------------
+    - Multiple username/password pairs can be provided, separated by semicolons (`;`).
+      Example: "username1;;username2;password2"
+    - If using environment variables, set 'UNIBEN_WIFI_USERNAME' and
+      'UNIBEN_WIFI_PASSWORD' with semicolon-separated values.
+      Example:
+        UNIBEN_WIFI_USERNAME="username1;username2"
+        UNIBEN_WIFI_PASSWORD=";password2"
 
-    It's following operation is the same as if username
-    and password were originally given.
+    - If no credentials are found, the function will raise a NoUserNamePasswordSetError.
     """
 
     if not (username and password):
