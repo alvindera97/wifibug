@@ -15,18 +15,18 @@ LOGIN_URL = "http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/"
 EXECUTE: Dict[Optional[int], Callable] = {
     None: lambda: print(USAGE_TEXT),
     2: lambda: main(sys.argv[1] == "headless"),
-
     # multiple username/password credentials,
     3: lambda: main(sys.argv[1] == "headless", username_password=sys.argv[2]),
-
     # single username/password credential
-    4: lambda: main(sys.argv[1] == "headless", username_password=sys.argv[2] + sys.argv[3]),
+    4: lambda: main(
+        sys.argv[1] == "headless", username_password=sys.argv[2] + sys.argv[3]
+    ),
 }
 
 
 def main(
-        headless: bool,
-        username_password: str = None,
+    headless: bool,
+    username_password: str = None,
 ) -> None:
     """
     Tries to log in to UNIBEN Wi-Fi with provided or environment-stored credentials.
@@ -59,10 +59,23 @@ def main(
     # We're guaranteed here that if username_password is None,
     # 'username' and 'password' is defined else an exception would have been raised before we reached this line.
 
-    credentials: List[Tuple[str, str]] = [(u, p,) for u, p in
-                                          zip(username.split(";"), password.split(";"))] if not username_password else [
-        ((c := username_password.split(";"))[i], c[i + 1],) for i in
-        range(0, len(username_password.split(";")), 2)]
+    credentials: List[Tuple[str, str]] = (
+        [
+            (
+                u,
+                p,
+            )
+            for u, p in zip(username.split(";"), password.split(";"))
+        ]
+        if not username_password
+        else [
+            (
+                (c := username_password.split(";"))[i],
+                c[i + 1],
+            )
+            for i in range(0, len(username_password.split(";")), 2)
+        ]
+    )
 
     if headless:
         options = Options()
@@ -80,17 +93,16 @@ def main(
             username, password = credentials[i]
             if username is None or password is None:
                 utils.print_no_username_password_set_and_quit()
-            browser.find_element(By.XPATH,
-                                 "/html/body/div/div/div/form/label[1]/input"
-                                 ).send_keys(username)
-            browser.find_element(By.XPATH,
-                                 "/html/body/div/div/div/form/label[2]/input"
-                                 ).send_keys(password)
-            browser.find_element(By.XPATH,
-                                 '/html/body/div/div/div/form/input[3]'
-                                 ).click()
-            message = browser.find_element(
-                By.CSS_SELECTOR, "p.info.alert").text
+            browser.find_element(
+                By.XPATH, "/html/body/div/div/div/form/label[1]/input"
+            ).send_keys(username)
+            browser.find_element(
+                By.XPATH, "/html/body/div/div/div/form/label[2]/input"
+            ).send_keys(password)
+            browser.find_element(
+                By.XPATH, "/html/body/div/div/div/form/input[3]"
+            ).click()
+            message = browser.find_element(By.CSS_SELECTOR, "p.info.alert").text
 
             if message.startswith("invalid"):
                 utils.print_invalid_username_or_password_and_quit()
