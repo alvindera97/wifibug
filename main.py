@@ -24,32 +24,6 @@ EXECUTE: Dict[Optional[int], Callable] = {
 }
 
 
-def print_no_username_password_set_and_quit():
-    """
-    Print that username/password is incorrect, then quit application.
-    """
-    print(USAGE_TEXT)
-    quit(0)
-
-
-def print_invalid_username_or_password_and_quit():
-    """
-    Print that username/password invalid and quit application.
-    """
-    print(f'INVALID USERNAME OR PASSWORD!\n'
-          f'Try again with correct credentials.'
-          f'\n\n{USAGE_TEXT}')
-    quit(0)
-
-
-def print_execution_failure(message) -> bool:
-    """
-    Print execution failure message passed in the argument 'message'
-    """
-    print(f'{message}')
-    return False
-
-
 def main(
         headless: bool,
         username_password: str = None,
@@ -105,7 +79,7 @@ def main(
         try:
             username, password = credentials[i]
             if username is None or password is None:
-                print_no_username_password_set_and_quit()
+                utils.print_no_username_password_set_and_quit()
             browser.find_element(By.XPATH,
                                  "/html/body/div/div/div/form/label[1]/input"
                                  ).send_keys(username)
@@ -119,15 +93,15 @@ def main(
                 By.CSS_SELECTOR, "p.info.alert").text
 
             if message.startswith("invalid"):
-                print_invalid_username_or_password_and_quit()
+                utils.print_invalid_username_or_password_and_quit()
             elif message.startswith("no"):
-                verdict = print_execution_failure(message)
+                verdict = utils.print_execution_failure(message)
             else:
                 verdict = False
         except NoSuchElementException:
             break
         except Exception as e:
-            print_execution_failure(e)
+            utils.print_execution_failure(e)
             quit(0)
         i = (i + 1) % len(credentials)
 
