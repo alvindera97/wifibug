@@ -7,7 +7,7 @@ Follow [this](https://docs.github.com/en/get-started/exploring-projects-on-githu
 ### Environment Set Up
 You will need the following software installed:
 - Python (version 3.10 >=, <3.20)
-- Google Chrome Browser **& corresponding webdriver** (https://developer.chrome.com/docs/chromedriver/get-started) — If you use another browser, then you'll need to install the corresponding webdriver for the browser's version. 
+- Google Chrome Browser **& corresponding webdriver** (https://developer.chrome.com/docs/chromedriver/get-started) — If you use another browser, then you'll need to install the corresponding webdriver for the browser's version and modify the browser class defined [here](https://github.com/alvindera97/wifibug/blob/6d370636f90ce7c5f3d64bbf2daacd8ff590e480/main.py#L80-L85)
 - Install pre-commit hooks:
   ```bash
 pre-commit install
