@@ -103,7 +103,7 @@ def main(
 
     verdict, i = False, 0
 
-    while not verdict:
+    while verdict is False:
         browser.get(LOGIN_URL)
         try:
             username, password = credentials[i]
