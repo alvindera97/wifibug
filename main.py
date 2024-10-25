@@ -49,6 +49,9 @@ def print_invalid_username_or_password_and_quit():
 
 
 def print_execution_failure(message) -> bool:
+    """
+    Print execution failure message passed in the argument 'message'
+    """
     print(f'{message}')
     return False
 
