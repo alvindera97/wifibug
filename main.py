@@ -8,13 +8,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
 from selenium.webdriver.common.by import By
 
 import utils
-
-USAGE_TEXT: str = (
-    "-- wifibug usage --\nWith single username/password combination:\n"
-    "python main.py [headless/visual] <username> <password>\n\n"
-    "To log in with multiple credentials:\n"
-    'python main.py [headless/visual] "<username1>;<password1>;<username2>;<password2>"\n'
-)
+from . import USAGE_TEXT
 
 LOGIN_URL = "http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/"
 
