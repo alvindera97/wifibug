@@ -8,6 +8,11 @@ Follow [this](https://docs.github.com/en/get-started/exploring-projects-on-githu
 You will need the following software installed:
 - Python (version 3.10 >=, <3.20)
 - Google Chrome Browser **& corresponding webdriver** (https://developer.chrome.com/docs/chromedriver/get-started) — If you use another browser, then you'll need to install the corresponding webdriver for the browser's version. 
+- Install pre-commit hooks:
+  ```bash
+pre-commit install
+```
+
 
 You'll need to pip install all project dependencies, **(however I would recommend you use a [virtual environment](https://docs.python.org/3/library/venv.html))**: 
 ```bash
