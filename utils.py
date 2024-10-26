@@ -2,7 +2,7 @@
 Utility classes/funcitons module for wifi-bug
 """
 
-from . import USAGE_TEXT
+from constants import USAGE_TEXT
 
 
 def print_no_username_password_set_and_quit():

@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver as Chrome
 from selenium.webdriver.common.by import By
 
 import utils
-from . import USAGE_TEXT
+from constants import USAGE_TEXT
 
 LOGIN_URL = "http://hotspot.uniben.edu/login?dst=http://nmcheck.gnome.org/"
 
